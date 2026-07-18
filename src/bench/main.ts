@@ -18,6 +18,7 @@ import {
   textToPhonemes, parsePhonemeString, isKnownPhoneme, LEXICON_WORDS,
 } from '../voice/g2p';
 import { UTTERANCES } from '../voice/utterances';
+import { CLASSICS } from '../voice/classics';
 
 /* ------------------------------------------------------------------ */
 /* State                                                               */
@@ -36,6 +37,9 @@ const PRESETS: Preset[] = [
   { name: 'Berzerk', note: 'Lower pitch, harsher',
     params: { pitch: 96, jitter: 0.030, transition: 0.018, drive: 2.8,
               chipSr: 7500 } },
+  { name: 'Wizard of Wor', note: 'Deeper and slower than Gorf — the dungeon register',
+    params: { pitch: 84, chipSr: 7000, jitter: 0.035, drift: 0.025,
+              transition: 0.014, drive: 3.0, rate: 0.9, stressScale: 1.6 } },
   { name: 'Very degraded', note: 'Pushes every knob toward broken',
     params: { chipSr: 5500, jitter: 0.055, transition: 0.008, quantStep: 100,
               quantLevels: 48, drive: 3.2 } },
@@ -357,6 +361,28 @@ function buildUtteranceButtons(): void {
   });
 }
 
+function buildClassicButtons(): void {
+  const host = document.getElementById('classics')!;
+  host.innerHTML = CLASSICS.map((c) =>
+    `<button class="utt" data-id="${c.id}" title="${c.game} (${c.year}) — ${c.tech}">
+       ${c.label}<span class="reads">${c.game} &middot; ${c.year} &middot; ${c.tech}</span></button>`,
+  ).join('');
+
+  host.querySelectorAll<HTMLButtonElement>('.utt').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const c = CLASSICS.find((x) => x.id === btn.dataset.id)!;
+      phonemes = [...c.phonemes];
+      (document.getElementById('phonemeIn') as HTMLTextAreaElement).value =
+        phonemes.join(' ');
+      (document.getElementById('textIn') as HTMLTextAreaElement).value =
+        c.label;
+      document.getElementById('breakdown')!.innerHTML = '';
+      setStatus(`${c.game} (${c.year}) — original hardware: ${c.tech}`, false);
+      scheduleRender(true);
+    });
+  });
+}
+
 function buildPhonemeReference(): void {
   const host = document.getElementById('phref')!;
   host.innerHTML = Object.entries(PHONEME_GROUPS).map(([group, list]) => `
@@ -385,6 +411,7 @@ function init(): void {
   buildSliders();
   buildPresets();
   buildUtteranceButtons();
+  buildClassicButtons();
   buildPhonemeReference();
 
   document.getElementById('lexicon')!.textContent =

@@ -8,7 +8,7 @@
   <img alt="TypeScript 5.6" src="https://img.shields.io/badge/TypeScript-5.6-3178c6?style=flat-square&logo=typescript&logoColor=white">
   <img alt="Vite 6" src="https://img.shields.io/badge/Vite-6-646cff?style=flat-square&logo=vite&logoColor=white">
   <img alt="Node 22 or newer" src="https://img.shields.io/badge/node-%E2%89%A522-5fa04e?style=flat-square&logo=node.js&logoColor=white">
-  <img alt="Tests: 40 passing" src="https://img.shields.io/badge/tests-40_passing-2ea44f?style=flat-square">
+  <img alt="Tests: 44 passing" src="https://img.shields.io/badge/tests-44_passing-2ea44f?style=flat-square">
   <img alt="Security review: clean" src="https://img.shields.io/badge/security_review-clean-00a6ed?style=flat-square">
 </p>
 
@@ -19,8 +19,8 @@
 # Rovacon Voice — Design Document & Tuning Bench
 
 **Rovacon Voice is a zero-dependency TypeScript recreation of Votrax
-SC-01-class formant speech synthesis — the chip behind Berzerk's "Intruder
-alert!" — small enough to ship inside a game at 9.7 KB gzipped.** Type any
+SC-01-class formant speech synthesis — the chip that voiced Gorf, Wizard of
+Wor, and Q*bert — small enough to ship inside a game at 9.7 KB gzipped.** Type any
 phrase into the browser tuning bench, hear it rendered as 1980 arcade speech
 in real time, and export the result as WAV. The wrongness is generated, not
 applied: quantized formants, a buzzy impulse-train glottis, and an 8 kHz
@@ -93,8 +93,8 @@ speaking.
 
 ## 2. What The Voice Does
 
-Seven short utterances, fired on game events. That is the entire scope. No
-narration, no tutorial voice, no reaction lines.
+Eight short utterances, fired on game events. That is the entire scope. No
+narration, no tutorial voice, no other reaction lines.
 
 | Trigger | Utterance | Priority |
 |---|---|---|
@@ -105,20 +105,30 @@ narration, no tutorial voice, no reaction lines.
 | Bonus target hit | `DIRECT HIT` | 5 |
 | Protection device trips (stall) | `SYSTEM FAULT` | 6 |
 | Run start, first attempt of a house only | `ROVACON` | 7 |
-| **Stair fall** | **Silence** | — |
+| Stair fall, after the withering bloop | `OUCH, THAT HURTS` | 8 |
 
-### 2.1 Why Stair Falls Get Silence
+### 2.1 The Stair Fall: Silence, Reversed
 
-The stair fall sequence (Doc 05 §5.1) already carries three pieces of
-punctuation: the wrecked vehicle with one wheel still spinning, then 700 ms of
-nothing, then a slow descending "withering bloop" borrowed from Centipede's
-player-death warble.
+**Original rule (Doc 10 §3B.5): silence.** The stair fall sequence (Doc 05
+§5.1) already carries three pieces of punctuation — the wrecked vehicle with
+one wheel still spinning, then 700 ms of nothing, then a slow descending
+"withering bloop" borrowed from Centipede's player-death warble. The
+argument was that a voice line would be a fourth beat and would kill it,
+and a test enforced the rule so nobody could add the line casually.
 
-A voice line would be a fourth beat and would kill it.
+**Reversed by owner decision, 2026-07-18.** The toy now says
+`OUCH, THAT HURTS` after the bloop finishes. The new argument: a plastic
+toy complaining from the bottom of a staircase *is* the
+Saturday-morning-commercial gag — deadpan slapstick, not a spoiled beat.
+The line is deliberately the lowest priority in the set and rides the same
+rate limiter as everything else. The enforcement test now points the other
+way: removing the line fails with a pointer to this section.
 
-A stall is bureaucratic — a system reported a fault, so `SYSTEM FAULT` fits. A
-stair fall is not bureaucratic. It is a plastic toy at the bottom of a
-staircase.
+Doc 10 §3B.5 and Doc 05 §5.1 still describe the silence rule and need a
+matching update upstream. Note for the listening pass: the line is the
+set's only sibilant-heavy one (`CH`, `HH`, a final `TS` cluster), so it
+carries ~2.5% energy above 4 kHz against the other lines' sub-2% — within
+the §6.3 tolerance, and the dulled, struggling S is period-authentic.
 
 ### 2.2 Rate Limiting
 
@@ -150,7 +160,47 @@ Volume defaults to 0.6, below SFX, with an independent off switch.
 
 ## 3. The Historical Reference
 
-### 3.1 The Votrax SC-01
+### 3.1 Talking Machines, 1975–1983
+
+Why speech was hard, in one number: digitized audio at 8 kHz and 8 bits
+costs **8 KB per second**, and a 1980 arcade board shipped 16–48 KB of ROM
+for the entire game. Recording an actor was out of the question. Everything
+that talked in that era is one of exactly three answers to that number:
+
+| Road | Mechanism | A word costs | Sounds like | Who took it |
+|---|---|---|---|---|
+| **Phoneme synthesis** | ~64 phoneme circuits in silicon, assembled at runtime | tens of bytes | buzzy, alien, unlimited vocabulary | Votrax SC-01: Gorf, Wizard of Wor, Q*bert — and this repo |
+| **Encoded speech** | real recordings crushed through a vocal-tract model (LPC and kin) | ~a hundred bytes, plus serious engineering | underwater, but recognizably human | TI's Speak & Spell (1978); TSI's S14001A: Berzerk |
+| **Raw samples** | digitized recordings played straight | kilobytes | human and gritty; the vocabulary of a parrot | Sinistar, Crazy Climber |
+
+Berzerk's ~30-word vocabulary reportedly cost around $1,000 per word to
+encode — the S14001A's compression was hand-tuned per phrase, using a
+technology originally built for a talking calculator for the blind. The
+toy aisle mostly refused to pay for any of this: Mego's 2-XL "robot"
+(1978) was an 8-track tape deck in a robot suit, its voice the inventor's
+own performance, its interactivity a track-switching trick. TI's
+Speak & Spell (1978) was the first mass-market toy with true synthesis
+inside. Big Trak — the toy Rovacon models — never spoke at all, which is
+why the voice in this project belongs to the arcade register (B), not the
+toy (A).
+
+**Why those voices became iconic.** Three reasons, and all of them are the
+constraint itself:
+
+1. **Scarcity wrote the script.** A thirty-word vocabulary means every
+   line is chosen like ad copy. Nothing wears out; everything is a
+   catchphrase by construction.
+2. **The voice was a barker.** In 1980 a machine that spoke *was* the
+   show. Cabinets taunted passers-by in attract mode — Gorf and the
+   Wizard existed to be heard across a noisy arcade, pulling quarters
+   from pockets.
+3. **Each failure was a fingerprint.** The three roads fail three
+   different ways — the Votrax buzzes, LPC gurgles, samples crunch — so
+   every talking cabinet had a voiceprint you could recognize from the
+   door. A perfect voice has no fingerprint. A specifically wrong one
+   does. That is VQ-01's thesis, four decades early.
+
+### 3.2 The Votrax SC-01
 
 A single-chip phoneme speech synthesizer released in 1980 by Federal Screw
 Works' Votrax division, around $70 in single quantities. It became the standard
@@ -158,17 +208,22 @@ for arcade speech.
 
 | Game | Year | Notable |
 |---|---|---|
-| Berzerk | 1980 | *"Intruder alert!"* |
-| Gorf | 1981 | *"Insert coin"* |
-| Wizard of Wor | 1981 | *"Dungeon of Wor"* |
+| Gorf | 1981 | *"Long live Gorf!"* |
+| Wizard of Wor | 1981 | *"I am the Wizard of Wor"* |
 | Q*bert | 1982 | Nonsense speech (SC-01A) |
+
+Berzerk (1980) — the most famous talking cabinet of all — is deliberately
+absent from this table: *"Intruder alert!"* came from TSI's S14001A
+(§3.1), not a Votrax, despite four decades of misattribution. The bench's
+Berzerk preset and classics-reel lines are cross-technology impressions,
+and labeled as such.
 
 **How it worked:** 64 phonemes in ROM addressed by a 6-bit input, 4 inflection
 levels, analog formant filters switched per phoneme, a master clock around
 720 kHz dividing to roughly 8 kHz effective audio bandwidth, and no memory of
 context — each phoneme rendered independently with crude interpolation.
 
-### 3.2 Why "Modern TTS, Degraded" Fails
+### 3.3 Why "Modern TTS, Degraded" Fails
 
 **The single most important technical point in this document.**
 
@@ -187,7 +242,7 @@ does not produce a Votrax. The character comes from properties that are
 The wrongness has to be generated, not applied. This is why the voice needs a
 real synthesizer rather than an audio filter chain.
 
-### 3.3 The Character, Described
+### 3.4 The Character, Described
 
 - **Buzzy.** The glottal source was near a pulse train — harsh, electric-razor.
 - **Bandwidth-starved.** Nothing above ~4 kHz. Sibilants came out as dull
@@ -288,7 +343,8 @@ rovacon-voice/
 │   │   ├── phonemes.ts        inventory — formant targets per phoneme
 │   │   ├── synth.ts           the DSP
 │   │   ├── g2p.ts             English → phonemes (rule-based)
-│   │   ├── utterances.ts      the seven shipping lines
+│   │   ├── utterances.ts      the eight shipping lines
+│   │   ├── classics.ts        bench-only classics reel
 │   │   ├── player.ts          playback + rate limiting
 │   │   └── index.ts           public surface
 │   └── bench/                 the tuning tool
@@ -297,7 +353,7 @@ rovacon-voice/
 ├── reference/                 Python reference implementation
 │   ├── synth.py
 │   └── render.py
-├── test/synth.test.ts         40 tests
+├── test/synth.test.ts         44 tests
 └── docs/tuning.md             read before editing synth.ts
 ```
 
@@ -405,6 +461,7 @@ phonemes always win. For anything shipping, write them by hand.
 | Gorf | Buzzier, more abrupt, lower bandwidth |
 | Berzerk | Lower pitch, harsher |
 | Very degraded | Every knob pushed toward broken |
+| Wizard of Wor | Deeper and slower than Gorf — the dungeon register |
 | **Clean** | **What this sounds like WITHOUT the vintage treatment** |
 | Speak & Spell-ish | Smoother, for A/B comparison |
 
@@ -421,10 +478,15 @@ limit**:
 |---|---|
 | Under 1% | Bandwidth limit working |
 | 1–2% | Acceptable |
+| 2–5% | Expected only on sibilant-heavy lines (`OUCH, THAT HURTS`) |
 | Over 5% | Something is wrong |
 
 ### 6.4 Controls
 
+- **Classics reel** — impressions of the golden age (Gorf, Wizard of Wor,
+  Berzerk, Sinistar, Crazy Climber, Q*bert), original hardware labeled per
+  line. Robotron is absent because it never spoke — the Williams voice you
+  remember is Sinistar's.
 - **Space** replays without re-rendering
 - **Download WAV** exports the current render
 - **Copy params** puts non-default values on the clipboard as JSON, ready to
@@ -483,7 +545,7 @@ premature.
 ### If The Answer Is "Broken"
 
 The fallback (Doc 10 §3B.3 Option 2) is to render the same synthesizer offline
-into seven fixed clips, roughly 120 KB gzipped. **The sound is identical** —
+into eight fixed clips, roughly 135 KB gzipped. **The sound is identical** —
 only the delivery mechanism changes. Nothing in this repo is wasted either way.
 
 ---
@@ -491,7 +553,7 @@ only the delivery mechanism changes. Nothing in this repo is wasted either way.
 ## 9. Testing
 
 ```bash
-pnpm test         # 40 tests
+pnpm test         # 44 tests
 pnpm typecheck    # strict, noUncheckedIndexedAccess
 pnpm build
 ```
@@ -507,12 +569,14 @@ Coverage:
 - **G2P** — lexicon hits, rule fallback, only valid phonemes emitted
 - **Validation** — `isKnownPhoneme` accepts stress markers and rejects
   `Object.prototype` names (the B1/H1 regression, §10.4)
-- **Utterance set** — unique IDs and priorities, valid phonemes, **no stair
-  fall line**
+- **Utterance set** — unique IDs and priorities, valid phonemes, and the
+  stair fall line **present** (the reversed rule, §2.1)
+- **Classics reel** — valid phonemes, labeled hardware, and provably
+  separate from the shipping set (exactly eight lines ship)
 
-That last test encodes a design decision as an assertion, so a future
-contributor who adds a stair fall utterance gets a failing test explaining why
-it must not exist.
+The stair-fall test still encodes a design decision as an assertion — it
+now points the other way. Removing `OUCH, THAT HURTS` fails with a pointer
+to §2.1's reversal record, exactly as adding it used to.
 
 ---
 

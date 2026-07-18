@@ -10,5 +10,7 @@ export {
 export type { G2PResult } from './g2p';
 export { UTTERANCES, UTTERANCE_BY_ID } from './utterances';
 export type { VoiceId, Utterance } from './utterances';
+export { CLASSICS } from './classics';
+export type { ClassicLine } from './classics';
 export { VoicePlayer, DEFAULT_VOICE_CONFIG } from './player';
 export type { VoiceConfig, SpeakContext } from './player';

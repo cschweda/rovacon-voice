@@ -1,11 +1,16 @@
 /**
- * The Rovacon utterance set — Doc 10 §3B.5.
+ * The Rovacon utterance set — Doc 10 §3B.5, plus one owner override.
  *
- * Seven lines, deliberately few. The fastest way to make this annoying
- * is too many. Stair falls get silence, which is a design decision, not
- * an omission: that sequence already carries the spinning wheel, 700 ms
- * of nothing, and the withering bloop. A voice line would be a fourth
- * beat and would kill it.
+ * Eight lines, deliberately few. The fastest way to make this annoying
+ * is too many.
+ *
+ * Stair falls originally got silence (Doc 10 §3B.5): the sequence
+ * already carries the spinning wheel, 700 ms of nothing, and the
+ * withering bloop, and a fourth beat looked like it would kill it. The
+ * project owner reversed that on 2026-07-18 — the toy now says OUCH,
+ * THAT HURTS after the bloop, on the theory that a plastic toy
+ * complaining from the bottom of a staircase IS the Saturday-morning
+ * commercial gag. Doc 10 needs a matching update upstream.
  */
 
 export type VoiceId =
@@ -15,7 +20,8 @@ export type VoiceId =
   | 'PAYLOAD_DELIVERED'
   | 'OPTIMAL'
   | 'OPERATOR_RECOGNIZED'
-  | 'SYSTEM_FAULT';
+  | 'SYSTEM_FAULT'
+  | 'OUCH_THAT_HURTS';
 
 export interface Utterance {
   readonly id: VoiceId;
@@ -87,6 +93,14 @@ export const UTTERANCES: readonly Utterance[] = [
     readsAs: 'ROH-vuh-KAHN',
     priority: 7,
     trigger: 'Run start — first attempt of a house only',
+  },
+  {
+    id: 'OUCH_THAT_HURTS',
+    label: 'OUCH, THAT HURTS',
+    phonemes: ['AW:','CH','PA2','DH','AE','T','PA','HH','ER:','T','S'],
+    readsAs: 'OW-ch... that HURTS',
+    priority: 8,
+    trigger: 'Stair fall — after the withering bloop (silence rule reversed 2026-07-18)',
   },
 ];
 

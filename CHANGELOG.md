@@ -25,16 +25,48 @@ versioning follows [SemVer](https://semver.org/spec/v2.0.0.html).
   deploy.
 - Live deployment: <https://rovacon-voice.netlify.app/>. The og/twitter
   image tags in `index.html` now use the absolute URL, plus `og:url`.
+- **Classics reel** (`src/voice/classics.ts` + bench panel): twelve
+  hand-transcribed impressions of golden-age arcade voices — Gorf ×4,
+  Wizard of Wor ×2, Berzerk ×2, Sinistar ×2, Crazy Climber, and a Q*bert
+  nonsense line — each labeled with its real original hardware (Votrax
+  SC-01/SC-01A, TSI S14001A, digitized samples). Bench-only; a test
+  proves it stays out of the shipping set.
+- **Wizard of Wor preset** — deeper and slower than Gorf; the dungeon
+  register.
+- **`OUCH, THAT HURTS` shipping utterance** for the stair fall (see
+  Changed).
+- README §3.1 "Talking Machines, 1975–1983" — why speech was hard (8 KB/s
+  vs 16–48 KB boards), the three roads around it (phoneme synthesis,
+  encoded speech, raw samples), the toy aisle's tape tricks (Mego 2-XL),
+  and why constraint-shaped voices became iconic. Existing §3.x
+  subsections renumbered.
+
+### Changed
+
+- **Stair-fall silence rule reversed by owner decision (2026-07-18).**
+  Doc 10 §3B.5 gave the stair fall silence, and a test enforced it; the
+  toy now says `OUCH, THAT HURTS` after the withering bloop, lowest
+  priority, same rate limiter. The enforcement test points the other way
+  (removing the line now fails), README §2.1 records both rationales, and
+  Doc 10 / Doc 05 need matching updates upstream.
+- Bandwidth test rebanded: the original seven lines keep their tuned 2%
+  ceiling; the deliberately sibilant `OUCH, THAT HURTS` (~2.5% above
+  4 kHz from `CH`/`HH`/final `TS`) gets the documented 5% failure
+  threshold. §6.3's analysis table now labels the 2–5% band.
 
 ### Fixed
 
+- **Berzerk chip attribution.** Berzerk's *"Intruder alert!"* came from
+  TSI's S14001A — a chip built for a talking calculator — not a Votrax.
+  Removed Berzerk from the SC-01 table (§3.2), corrected the elevator
+  pitch, and labeled the classics reel accordingly.
 - **B1** — the bench phoneme field rejected stress-marked tokens (`OH:`),
   the exact syntax its own help text recommends; on a fresh load the
   phoneme-reference chips errored instead of appending. Validation now
   goes through `isKnownPhoneme()`. Full entry with severity in README
   §10.4.
 - README test count corrected: it claimed 28; the suite had 35, and has
-  40 after the B1 regression tests.
+  44 after the B1 regression and classics/stair-fall tests.
 
 ### Security
 
