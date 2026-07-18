@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rovacon Voice Tuning Bench</title>
+<link rel="stylesheet" href="/src/bench/bench.css">
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <span class="amtoy">AmToy</span>
+    <h1>Rovacon Voice Tuning Bench</h1>
+  </div>
+  <p class="sub">Votrax SC-01 style formant synthesis &middot;
+     resolving <b>VQ-01</b>: does this sound vintage, or merely broken?</p>
+</header>
+
+<main>
+
+  <section class="panel input-panel">
+    <h2>Input</h2>
+
+    <label class="field-label" for="textIn">Plain English</label>
+    <textarea id="textIn" rows="2"
+      spellcheck="false">ROVACON</textarea>
+    <p class="note" id="g2pNote"></p>
+    <div id="breakdown" class="breakdown"></div>
+
+    <label class="field-label" for="phonemeIn">Phonemes (editable)</label>
+    <textarea id="phonemeIn" rows="2" spellcheck="false"></textarea>
+    <p class="note">Hand-written phonemes always win. Edit here to correct
+       the converter. Add a trailing colon to stress a phoneme &mdash;
+       <code>R OH: V AH K AA: N</code> lengthens the two strong syllables.</p>
+
+    <div id="status" class="status"></div>
+
+    <div class="controls">
+      <button id="play" class="primary">Play <kbd>space</kbd></button>
+      <label class="check"><input type="checkbox" id="auto" checked>
+        auto-play on change</label>
+      <button id="download">Download WAV</button>
+      <button id="copyParams">Copy params</button>
+      <button id="reset">Reset</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>Utterance set</h2>
+    <p class="note">The seven shipping lines, Doc&nbsp;10 §3B.5.</p>
+    <div id="utterances" class="utterances"></div>
+  </section>
+
+  <section class="panel">
+    <h2>Presets</h2>
+    <p class="note">Hover for a description. &ldquo;Clean&rdquo; shows what
+       this sounds like <em>without</em> the vintage treatment &mdash; useful
+       for hearing how much work the degradation is doing.</p>
+    <div id="presets" class="presets"></div>
+  </section>
+
+  <section class="panel wide">
+    <h2>Output</h2>
+    <canvas id="wave" height="120"></canvas>
+    <div id="stats" class="stats"></div>
+    <div id="bands" class="bands"></div>
+    <p class="note">Energy above 4&nbsp;kHz should stay near zero &mdash; that
+       confirms the chip-rate bandwidth limit is applying. If it climbs above
+       5%, the most important part of the vintage character is not working.</p>
+  </section>
+
+  <section class="panel wide">
+    <h2>Parameters</h2>
+    <p class="note">Highlighted sliders are the three that matter most.
+       Several of these make the output objectively <em>worse</em> by
+       conventional measures &mdash; that is the point. See
+       <code>docs/tuning.md</code> before &ldquo;improving&rdquo; anything.</p>
+    <div id="sliders" class="sliders"></div>
+  </section>
+
+  <section class="panel wide">
+    <h2>Phoneme reference</h2>
+    <p class="note">Click to append. <span id="lexicon" class="lex"></span></p>
+    <div id="phref" class="phref"></div>
+  </section>
+
+</main>
+
+<footer>
+  <p>Component of <b>Rovacon</b> &middot; see Doc&nbsp;10 §3B and
+     <code>rovacon-voice-synthesis.md</code></p>
+  <p class="fine">Some assembly required. Batteries not included.</p>
+</footer>
+
+<script type="module" src="/src/bench/main.ts"></script>
+</body>
+</html>
