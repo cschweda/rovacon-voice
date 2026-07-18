@@ -1,0 +1,27 @@
+# Netlify deploy configuration.
+#
+# Node version comes from .nvmrc. Netlify detects pnpm-lock.yaml and runs
+# pnpm with CI=true, which freezes the lockfile — half of hardening item
+# H4 (README §10.3). The headers below are H3: the review recommended a
+# CSP "if the bench is ever hosted", and this file is that hosting.
+
+[build]
+  command = "pnpm build"
+  publish = "dist"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    # style-src needs 'unsafe-inline' because the band-energy bars set
+    # width via a style attribute (src/bench/main.ts). Everything else
+    # is same-origin only; the app makes no external requests at all.
+    Content-Security-Policy = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self'; form-action 'none'; frame-ancestors 'none'"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    # Vite content-hashes everything under /assets.
+    Cache-Control = "public, max-age=31536000, immutable"

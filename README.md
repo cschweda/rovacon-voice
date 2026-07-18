@@ -1,4 +1,27 @@
+<p align="center">
+  <img src="public/og.png" width="820"
+       alt="Rovacon Voice — the real waveform of the synthesizer saying ROVACON, annotated with its phoneme string R OH: V AH K AA: N">
+</p>
+
+<p align="center">
+  <a href="LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-MIT-8b8b8b?style=flat-square"></a>
+  <img alt="TypeScript 5.6" src="https://img.shields.io/badge/TypeScript-5.6-3178c6?style=flat-square&logo=typescript&logoColor=white">
+  <img alt="Vite 6" src="https://img.shields.io/badge/Vite-6-646cff?style=flat-square&logo=vite&logoColor=white">
+  <img alt="Node 22 or newer" src="https://img.shields.io/badge/node-%E2%89%A522-5fa04e?style=flat-square&logo=node.js&logoColor=white">
+  <img alt="Tests: 40 passing" src="https://img.shields.io/badge/tests-40_passing-2ea44f?style=flat-square">
+  <img alt="Security review: clean" src="https://img.shields.io/badge/security_review-clean-00a6ed?style=flat-square">
+</p>
+
 # Rovacon Voice — Design Document & Tuning Bench
+
+**Rovacon Voice is a zero-dependency TypeScript recreation of Votrax
+SC-01-class formant speech synthesis — the chip behind Berzerk's "Intruder
+alert!" — small enough to ship inside a game at 9.7 KB gzipped.** Type any
+phrase into the browser tuning bench, hear it rendered as 1980 arcade speech
+in real time, and export the result as WAV. The wrongness is generated, not
+applied: quantized formants, a buzzy impulse-train glottis, and an 8 kHz
+chip-rate ceiling — a real synthesizer, not a modern voice with filters on
+top.
 
 **Component of:** Rovacon (13-document design suite, Docs 00–12)
 **Owning document:** Doc 10 — Audio Design, §3B
@@ -254,6 +277,8 @@ one reason plosives read cleaner than the SC-01's did.
 ```
 rovacon-voice/
 ├── index.html                 tuning bench page
+├── netlify.toml               deploy config + H3 security headers
+├── public/                    og social card (real synth output)
 ├── src/
 │   ├── voice/                 the shipping module
 │   │   ├── phonemes.ts        inventory — formant targets per phoneme
@@ -268,7 +293,7 @@ rovacon-voice/
 ├── reference/                 Python reference implementation
 │   ├── synth.py
 │   └── render.py
-├── test/synth.test.ts         28 tests
+├── test/synth.test.ts         40 tests
 └── docs/tuning.md             read before editing synth.ts
 ```
 
@@ -318,7 +343,7 @@ Fast enough on the main thread that slider drags feel live. Utterances are
 cached as `AudioBuffer`s after first render, so in-game playback is a
 `BufferSourceNode` start.
 
-Built bundle: **9.5 KB gzipped**, zero audio assets.
+Built bundle: **9.7 KB gzipped**, zero audio assets.
 
 ### 5.5 Two Bugs Worth Recording
 
@@ -460,7 +485,7 @@ only the delivery mechanism changes. Nothing in this repo is wasted either way.
 ## 9. Testing
 
 ```bash
-pnpm test         # 28 tests
+pnpm test         # 40 tests
 pnpm typecheck    # strict, noUncheckedIndexedAccess
 pnpm build
 ```
@@ -474,6 +499,8 @@ Coverage:
 - **Output shape** — under 2 s, never clips, fades applied
 - **Parameters** — rate scales duration, quantization changes output
 - **G2P** — lexicon hits, rule fallback, only valid phonemes emitted
+- **Validation** — `isKnownPhoneme` accepts stress markers and rejects
+  `Object.prototype` names (the B1/H1 regression, §10.4)
 - **Utterance set** — unique IDs and priorities, valid phonemes, **no stair
   fall line**
 
@@ -490,6 +517,10 @@ initial commit *is* the codebase. Method: an adversarial red-team pass
 hunting exploitable paths, run as two independent traces, plus a blue-team
 assessment of defensive posture. Re-run this review when a change adds an
 input path, a DOM sink, or a dependency.
+
+Findings carry live status. **H1 and H3 were applied 2026-07-18** (H3
+because the Netlify deploy makes its "if ever hosted" condition true);
+B1 is fixed, with regression tests. Details in §10.3–10.4.
 
 ### 10.1 Threat Model
 
@@ -522,26 +553,45 @@ and library layers, errors thrown rather than inputs silently accepted,
 strict TypeScript with `noUncheckedIndexedAccess`, localhost-only dev
 server, integrity-pinned lockfile.
 
-Hardening recommendations, none blocking:
+Hardening items and their status:
 
-| # | Recommendation | Why |
-|---|---|---|
-| H1 | Validate with `Object.hasOwn(PHONES, stripStress(p))` instead of `p in PHONES` (`src/bench/main.ts:255`) | `in` consults the prototype chain; only the uppercase step currently masks that. `Object.hasOwn` states the intent — and fixes B1 below |
-| H2 | Add `'` to `escapeHtml` | Safe today because the sink is element content; a footgun the day someone interpolates into a single-quoted attribute |
-| H3 | Add a CSP `<meta>` to `index.html` if the bench is ever hosted | As a local tool it has no origin worth protecting; a deployed copy would |
-| H4 | When CI exists: `pnpm install --frozen-lockfile` + `pnpm audit` | Turns the lockfile from a suggestion into a gate |
+| # | Recommendation | Why | Status |
+|---|---|---|---|
+| H1 | Validate with `Object.hasOwn` + `stripStress` instead of `p in PHONES` | `in` consults the prototype chain; only the uppercase step masked that. `Object.hasOwn` states the intent — and fixes B1 | **Applied 2026-07-18** — `isKnownPhoneme()` in `src/voice/g2p.ts`, wired into the bench; full entry in §10.4 |
+| H2 | Add `'` to `escapeHtml` | Safe today because the sink is element content; a footgun the day someone interpolates into a single-quoted attribute | Open |
+| H3 | Security headers for the hosted bench | The review said "if the bench is ever hosted" — the Netlify deploy is that hosting | **Applied 2026-07-18** — CSP, `X-Content-Type-Options: nosniff`, `Referrer-Policy`, and `Permissions-Policy` in `netlify.toml` |
+| H4 | Frozen lockfile + `pnpm audit` in the build pipeline | Turns the lockfile from a suggestion into a gate | **Partial** — Netlify builds run pnpm with `CI=true`, which freezes the lockfile; an audit gate is still open |
 
-### 10.4 Byproduct: One Functional Bug (B1)
+### 10.4 Findings Log
 
-Not a security issue, but the review's data-flow trace surfaced it: **the
-bench phoneme field rejects stress markers.** `updateFromPhonemes` validates
-raw tokens against `PHONES` without calling `stripStress`, so `OH:` — the
-exact syntax the input panel's own help text recommends — reads as an
-unknown phoneme. Visible consequence: the default `ROVACON` string contains
-`OH:` and `AA:`, so on a fresh load, editing the phoneme field or clicking
-any phoneme-reference chip errors instead of applying. `synth()` handles
-stress correctly; only the bench-side validation is wrong. The H1 change
-fixes both.
+**B1 — bench phoneme validation rejected stress markers and consulted the
+prototype chain.** Found 2026-07-18 during the review's data-flow trace;
+**fixed 2026-07-18**.
+
+- **Issue.** `updateFromPhonemes` validated tokens with `p in PHONES`. Two
+  defects in one expression: the `in` operator consults the prototype
+  chain, so `Object.prototype` names were formally accepted by the check;
+  and validation never called `stripStress`, so stress-marked tokens
+  (`OH:`) — the exact syntax the input panel's own help text recommends —
+  were rejected as unknown. Visible consequence: the default `ROVACON`
+  string contains `OH:` and `AA:`, so on a fresh load, editing the phoneme
+  field or clicking any phoneme-reference chip errored instead of applying.
+  `synth()` itself handled both cases correctly.
+- **Severity.** Security: **Low** — defense-in-depth only, not exploitable.
+  Uppercase normalization kept every `Object.prototype` name out of the
+  check in practice, and forcing one through the library API directly
+  produced only a caught error rendered via `textContent`. Functional:
+  **Medium** — the documented stress syntax and the phoneme-reference
+  chips were broken in the bench's default state.
+- **Mitigation.** New `isKnownPhoneme()` in `src/voice/g2p.ts`:
+  `Object.hasOwn(PHONES, stripStress(name))` — own properties only,
+  stress-aware, accepts exactly what `synth()` accepts. Exported from the
+  library surface so any host UI validates the same way, and wired into
+  the bench in place of the `in` check. Five regression tests added
+  ("phoneme validation (bench boundary)" in `test/synth.test.ts`),
+  covering stressed tokens, unknown tokens, and every `Object.prototype`
+  name; the suite is 40 tests.
+- **Status.** **Fixed** — H1 applied, B1 resolved, tests green.
 
 ---
 

@@ -13,8 +13,10 @@ import {
   synth, bandEnergy, toWavBlob, SR,
   DEFAULT_PARAMS, type SynthParams, type Samples,
 } from '../voice/synth';
-import { PHONEME_GROUPS, PHONES } from '../voice/phonemes';
-import { textToPhonemes, parsePhonemeString, LEXICON_WORDS } from '../voice/g2p';
+import { PHONEME_GROUPS } from '../voice/phonemes';
+import {
+  textToPhonemes, parsePhonemeString, isKnownPhoneme, LEXICON_WORDS,
+} from '../voice/g2p';
 import { UTTERANCES } from '../voice/utterances';
 
 /* ------------------------------------------------------------------ */
@@ -252,7 +254,7 @@ function updateFromText(): void {
 function updateFromPhonemes(): void {
   const raw = (document.getElementById('phonemeIn') as HTMLTextAreaElement).value;
   const parsed = parsePhonemeString(raw);
-  const unknown = parsed.filter((p) => !(p in PHONES));
+  const unknown = parsed.filter((p) => !isKnownPhoneme(p));
 
   if (unknown.length > 0) {
     setStatus(`Unknown phoneme${unknown.length > 1 ? 's' : ''}: ` +

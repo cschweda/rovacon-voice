@@ -11,6 +11,28 @@ versioning follows [SemVer](https://semver.org/spec/v2.0.0.html).
 - This changelog.
 - README §10 — full-tree red/blue team security review of commit `0789916`
   (2026-07-18).
+- `isKnownPhoneme()` — stress-aware, own-properties-only phoneme
+  validation, exported from the library surface and used by the bench.
+  Five regression tests ("phoneme validation (bench boundary)"); the
+  suite is now 40 tests.
+- Social card (`public/og.svg` → `public/og.png`), generated from the real
+  waveform of `synth(['R','OH:','V','AH','K','AA:','N'])` with phoneme
+  labels aligned to their true audio segments (the K closure gap is
+  visible silence). README hero image, badges, and elevator pitch; Open
+  Graph / Twitter meta tags in `index.html`.
+- `LICENSE` (MIT), `.nvmrc` (Node 22), and `netlify.toml` (build config,
+  hashed-asset caching, and the H3 security headers) for the Netlify
+  deploy.
+
+### Fixed
+
+- **B1** — the bench phoneme field rejected stress-marked tokens (`OH:`),
+  the exact syntax its own help text recommends; on a fresh load the
+  phoneme-reference chips errored instead of appending. Validation now
+  goes through `isKnownPhoneme()`. Full entry with severity in README
+  §10.4.
+- README test count corrected: it claimed 28; the suite had 35, and has
+  40 after the B1 regression tests.
 
 ### Security
 
@@ -21,10 +43,17 @@ versioning follows [SemVer](https://semver.org/spec/v2.0.0.html).
   patched versions (vite 6.4.3, vitest 2.1.9); lockfile integrity-pinned
   with no custom registries; no secrets in tree or history. Four
   non-blocking hardening recommendations recorded as H1–H4 in README §10.3.
-- Known functional (non-security) bug **B1** recorded in README §10.4: the
-  bench phoneme field rejects the documented stress-marker syntax (`OH:`)
-  because validation skips `stripStress`. `synth()` itself is unaffected;
-  the H1 hardening change fixes both.
+- **H1 applied** (severity: Low, defense-in-depth) — bench validation
+  switched from the prototype-chain-consulting `p in PHONES` to
+  `Object.hasOwn` + `stripStress`, which also resolved functional bug B1
+  (severity: Medium, usability).
+- **H3 applied** — the review recommended security headers "if the bench
+  is ever hosted"; the Netlify deploy is that hosting. `netlify.toml` now
+  ships a same-origin CSP, `X-Content-Type-Options: nosniff`,
+  `Referrer-Policy`, and `Permissions-Policy`.
+- **H4 partially closed** — Netlify runs pnpm with `CI=true`, freezing the
+  lockfile in the deploy pipeline; a `pnpm audit` gate remains open, as
+  does H2 (quote coverage in `escapeHtml`).
 
 ## [0.1.0] — 2026-07-18
 

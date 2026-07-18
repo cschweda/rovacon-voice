@@ -1,7 +1,9 @@
 import { describe, it, expect } from 'vitest';
 import { synth, bandEnergy, DEFAULT_PARAMS } from '../src/voice/synth';
 import { PHONES, PHONEME_NAMES } from '../src/voice/phonemes';
-import { textToPhonemes, parsePhonemeString, stripStress } from '../src/voice/g2p';
+import {
+  textToPhonemes, parsePhonemeString, stripStress, isKnownPhoneme,
+} from '../src/voice/g2p';
 import { UTTERANCES } from '../src/voice/utterances';
 
 const ROVACON = ['R', 'OH', 'V', 'AH', 'K', 'AA', 'N'];
@@ -228,6 +230,44 @@ describe('phoneme string parsing', () => {
 
   it('uppercases and trims', () => {
     expect(parsePhonemeString('  r  oh  ')).toEqual(['R', 'OH']);
+  });
+});
+
+describe('phoneme validation (bench boundary)', () => {
+  it('accepts every bare phoneme', () => {
+    for (const name of PHONEME_NAMES) {
+      expect(isKnownPhoneme(name), name).toBe(true);
+    }
+  });
+
+  it('accepts stress-marked phonemes (B1 regression)', () => {
+    // The bench once rejected these — the exact syntax its own help
+    // text recommends — because validation skipped stripStress.
+    expect(isKnownPhoneme('OH:')).toBe(true);
+    expect(isKnownPhoneme('AA::')).toBe(true);
+  });
+
+  it('accepts every token of every shipping utterance', () => {
+    for (const u of UTTERANCES) {
+      for (const p of u.phonemes) {
+        expect(isKnownPhoneme(p), `${p} in ${u.label}`).toBe(true);
+      }
+    }
+  });
+
+  it('rejects unknown tokens, stressed or not', () => {
+    expect(isKnownPhoneme('NOPE')).toBe(false);
+    expect(isKnownPhoneme('NOPE:')).toBe(false);
+    expect(isKnownPhoneme('')).toBe(false);
+    expect(isKnownPhoneme(':')).toBe(false);
+  });
+
+  it('rejects Object.prototype names (H1: own properties only)', () => {
+    const names =
+      ['constructor', 'toString', 'valueOf', 'hasOwnProperty', '__proto__'];
+    for (const name of names) {
+      expect(isKnownPhoneme(name), name).toBe(false);
+    }
   });
 });
 

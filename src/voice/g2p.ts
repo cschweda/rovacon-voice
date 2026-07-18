@@ -15,6 +15,8 @@
  * error often lands within the target aesthetic anyway.
  */
 
+import { PHONES } from './phonemes';
+
 /** Words we care about, transcribed by hand. */
 const LEXICON: Readonly<Record<string, string[]>> = {
   ROVACON: ['R', 'OH:', 'V', 'AH', 'K', 'AA:', 'N'],
@@ -254,6 +256,18 @@ export function parsePhonemeString(s: string): string[] {
 /** Strip stress markers, for validation against the phoneme table. */
 export function stripStress(name: string): string {
   return name.replace(/:+$/, '');
+}
+
+/**
+ * True if a token names a known phoneme, stress markers allowed.
+ *
+ * This is the validation any UI should use before handing tokens to
+ * synth(): it accepts exactly what synth() accepts, and it consults own
+ * properties only — `name in PHONES` would also match prototype members
+ * like `constructor`.
+ */
+export function isKnownPhoneme(name: string): boolean {
+  return Object.hasOwn(PHONES, stripStress(name));
 }
 
 export const LEXICON_WORDS = Object.keys(LEXICON).sort();
