@@ -483,7 +483,69 @@ it must not exist.
 
 ---
 
-## 10. Cross-References
+## 10. Security Review — Red/Blue Team
+
+Reviewed 2026-07-18 against commit `0789916` — the full tree, since the
+initial commit *is* the codebase. Method: an adversarial red-team pass
+hunting exploitable paths, run as two independent traces, plus a blue-team
+assessment of defensive posture. Re-run this review when a change adds an
+input path, a DOM sink, or a dependency.
+
+### 10.1 Threat Model
+
+What exists to attack: two bench textareas, the library's string-accepting
+APIs (`synth`, `textToPhonemes`, `parsePhonemeString`), the vite dev server,
+and the npm supply chain. What does not exist: servers, authentication,
+secrets, network I/O, storage, cookies, or URL-derived input. The Python
+reference scripts accept no input at all — hardcoded data in, `out/*.wav`
+out.
+
+### 10.2 Red Team: No Exploitable Vulnerabilities Found
+
+Every candidate path traced to a dead end:
+
+| Attack path | Verdict |
+|---|---|
+| DOM XSS via the bench's nine `innerHTML` assignments | Two clear to empty string; six render compile-time constants only. The one carrying user input (`#breakdown`) escapes word text through `escapeHtml()`, and its phoneme half is constrained to `[A-Z]` symbols from fixed tables by `wordToPhonemes()` — attacker text cannot survive into markup |
+| Script injection via the phoneme field | `parsePhonemeString` uppercases and splits; unknown tokens are rejected before use; all error/status paths write via `textContent` |
+| Prototype-chain smuggling (`constructor`, `toString`, …) | The check `p in PHONES` *does* consult the prototype chain — but uppercase normalization means no `Object.prototype` name can reach it. Forced through the library API directly, the worst case is a property read and a thrown, caught `Error` |
+| WAV download filename injection | Filename built from validated phoneme tokens; `/` is a token separator and cannot survive parsing |
+| Drive-by attack on the dev server | Binds localhost only (no `host`), no CORS or `fs.allow` overrides; lockfile resolves vite 6.4.3 and vitest 2.1.9, past all published dev-server advisories for their lines at review time (including the vitest 2.x WebSocket RCE, fixed exactly in 2.1.9) |
+| Supply chain | Three well-known devDependencies, no lifecycle scripts, pnpm lockfile pins every package by sha512 integrity, no custom registries or git/tarball URLs |
+| Secrets in tree or history | None — single commit, greps clean; `eval`/`new Function`/dynamic `import()` absent |
+
+### 10.3 Blue Team: Posture and Hardening
+
+Already right: input canonicalized to `[A-Z]` at the G2P boundary, HTML
+escaping at the one user-data sink, unknown phonemes rejected at both the UI
+and library layers, errors thrown rather than inputs silently accepted,
+strict TypeScript with `noUncheckedIndexedAccess`, localhost-only dev
+server, integrity-pinned lockfile.
+
+Hardening recommendations, none blocking:
+
+| # | Recommendation | Why |
+|---|---|---|
+| H1 | Validate with `Object.hasOwn(PHONES, stripStress(p))` instead of `p in PHONES` (`src/bench/main.ts:255`) | `in` consults the prototype chain; only the uppercase step currently masks that. `Object.hasOwn` states the intent — and fixes B1 below |
+| H2 | Add `'` to `escapeHtml` | Safe today because the sink is element content; a footgun the day someone interpolates into a single-quoted attribute |
+| H3 | Add a CSP `<meta>` to `index.html` if the bench is ever hosted | As a local tool it has no origin worth protecting; a deployed copy would |
+| H4 | When CI exists: `pnpm install --frozen-lockfile` + `pnpm audit` | Turns the lockfile from a suggestion into a gate |
+
+### 10.4 Byproduct: One Functional Bug (B1)
+
+Not a security issue, but the review's data-flow trace surfaced it: **the
+bench phoneme field rejects stress markers.** `updateFromPhonemes` validates
+raw tokens against `PHONES` without calling `stripStress`, so `OH:` — the
+exact syntax the input panel's own help text recommends — reads as an
+unknown phoneme. Visible consequence: the default `ROVACON` string contains
+`OH:` and `AA:`, so on a fresh load, editing the phoneme field or clicking
+any phoneme-reference chip errors instead of applying. `synth()` handles
+stress correctly; only the bench-side validation is wrong. The H1 change
+fixes both.
+
+---
+
+## 11. Cross-References
 
 | Topic | Document |
 |---|---|
