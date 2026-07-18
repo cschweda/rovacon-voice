@@ -12,6 +12,10 @@
   <img alt="Security review: clean" src="https://img.shields.io/badge/security_review-clean-00a6ed?style=flat-square">
 </p>
 
+<p align="center">
+  <b>Live bench: <a href="https://rovacon-voice.netlify.app/">rovacon-voice.netlify.app</a></b>
+</p>
+
 # Rovacon Voice — Design Document & Tuning Bench
 
 **Rovacon Voice is a zero-dependency TypeScript recreation of Votrax
@@ -372,6 +376,8 @@ Measured separation now:
 ---
 
 ## 6. The Tuning Bench
+
+Hosted at **<https://rovacon-voice.netlify.app/>** — or run it locally:
 
 ```bash
 pnpm install

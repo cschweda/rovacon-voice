@@ -23,6 +23,8 @@ versioning follows [SemVer](https://semver.org/spec/v2.0.0.html).
 - `LICENSE` (MIT), `.nvmrc` (Node 22), and `netlify.toml` (build config,
   hashed-asset caching, and the H3 security headers) for the Netlify
   deploy.
+- Live deployment: <https://rovacon-voice.netlify.app/>. The og/twitter
+  image tags in `index.html` now use the absolute URL, plus `og:url`.
 
 ### Fixed
 
