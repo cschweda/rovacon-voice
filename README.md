@@ -29,11 +29,26 @@ top.
 
 **Component of:** [Rovacon](https://github.com/cschweda/rovacon)
 ([13-document design suite, Docs 00–12](https://github.com/cschweda/rovacon/tree/main/docs))
-**Universe:** [The complete AmToy history](https://amtoy.metaincognita.com) —
-fictional, and canon for every metaincognita / AmToy project
 **Owning document:** Doc 10 — Audio Design, §3B
 **Status:** TypeScript implementation complete and tested. Tuning bench
 operational. **VQ-01 unresolved** — awaiting a listening judgment.
+
+---
+
+## The AmToy Universe
+
+<p align="center">
+  <a href="https://amtoy.metaincognita.com">
+    <img src="public/amtoy-logo.svg" width="320" alt="AmToy — Games That Think!">
+  </a>
+</p>
+
+**AmToy, Inc.** — founded 1961, slogan *Games That Think!* — is the fictional
+toy company that shipped the Rovacon in 1979. Its complete corporate history
+lives at [amtoy.metaincognita.com](https://amtoy.metaincognita.com), and that
+history is canon: every metaincognita / AmToy project — this bench, the
+[Rovacon design suite](https://github.com/cschweda/rovacon), and whatever
+comes next — exists in the same universe and answers to it.
 
 ---
 
@@ -684,24 +699,3 @@ Docs 00–12 live in the main Rovacon repository, under
 | Accessibility text equivalents | Doc 10 §10, Doc 08 §6 |
 | Risk register entry | Doc 12 §13 |
 | Tuning parameters in detail | `docs/tuning.md` |
-
----
-
-## The AmToy Universe
-
-<p align="center">
-  <a href="https://amtoy.metaincognita.com">
-    <img src="public/amtoy-logo.svg" width="380" alt="AmToy — Games That Think!">
-  </a>
-</p>
-
-Rovacon Voice is one artifact of a larger fiction. **AmToy, Inc.** — founded
-1961, slogan *Games That Think!* — is the toy company that shipped the
-Rovacon in 1979, and its complete corporate history lives at
-[amtoy.metaincognita.com](https://amtoy.metaincognita.com). The history is
-fictional; it is also canon. Every metaincognita / AmToy project exists in
-the same universe and answers to that history.
-
-The game this voice belongs to is specified in the
-[Rovacon design suite](https://github.com/cschweda/rovacon) (Docs 00–12),
-where the same box art and logo hang over the same premise.
