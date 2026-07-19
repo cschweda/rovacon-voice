@@ -13,7 +13,7 @@
 
   <!-- eyebrow -->
   <text x="72" y="100" font-family="Menlo, monospace" font-size="19"
-        letter-spacing="5" fill="#e8a33d">AMTOY, INC. &#183; SPEECH SYNTHESIS DIVISION</text>
+        letter-spacing="5" fill="#e8a33d">VOGELTRONICS, INC. &#183; SPEECH SYNTHESIS DIVISION</text>
   <text x="1128" y="100" text-anchor="end" font-family="Menlo, monospace"
         font-size="19" letter-spacing="5" fill="#68604f">CIRCA 1979</text>
   <path d="M72 122 H1128" stroke="#2a2620" stroke-width="1.5"/>

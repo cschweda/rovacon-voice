@@ -31,7 +31,7 @@ const LEXICON: Readonly<Record<string, string[]>> = {
   FAULT: ['F', 'AO', 'L', 'T'],
   OPERATOR: ['AA', 'P', 'ER', 'AY', 'T', 'ER'],
   RECOGNIZED: ['R', 'EH', 'K', 'AH', 'G', 'N', 'AY', 'Z', 'D'],
-  AMTOY: ['AE', 'M', 'T', 'OY'],
+  VOGELTRONICS: ['V', 'OH:', 'G', 'AH', 'L', 'T', 'R', 'AA:', 'N', 'IH', 'K', 'S'],
   INSERT: ['IH', 'N', 'S', 'ER', 'T'],
   COIN: ['K', 'OY', 'N'],
   INTRUDER: ['IH', 'N', 'T', 'R', 'UW', 'D', 'ER'],

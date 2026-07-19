@@ -32,7 +32,7 @@ header {
 
 .brand { display: flex; align-items: baseline; gap: 14px; }
 
-.amtoy {
+.vogeltronics {
   background: var(--red);
   color: var(--ink);
   padding: 3px 10px;

@@ -1,0 +1,99 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 320" role="img" aria-label="VogelTronics. Games That Think!">
+  <defs>
+    <linearGradient id="cream" x1="0" y1="60" x2="0" y2="232" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#fbf7ec"/>
+      <stop offset=".55" stop-color="#f4efe6"/>
+      <stop offset="1" stop-color="#d9d0bd"/>
+    </linearGradient>
+    <linearGradient id="red" x1="0" y1="60" x2="0" y2="232" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#ff6a55"/>
+      <stop offset=".5" stop-color="#f23a2b"/>
+      <stop offset="1" stop-color="#c31b10"/>
+    </linearGradient>
+    <radialGradient id="sheen" cx=".5" cy="0" r="1.2">
+      <stop offset="0" stop-color="#2a2a2a"/>
+      <stop offset=".55" stop-color="#151310"/>
+      <stop offset="1" stop-color="#0e0d0b"/>
+    </radialGradient>
+    <radialGradient id="ledball" cx=".36" cy=".3" r=".95">
+      <stop offset="0" stop-color="#ffe3da"/>
+      <stop offset=".28" stop-color="#ff7a62"/>
+      <stop offset=".62" stop-color="#f0281a"/>
+      <stop offset="1" stop-color="#8e0c05"/>
+    </radialGradient>
+    <radialGradient id="ledglow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#ff4436" stop-opacity=".55"/>
+      <stop offset=".55" stop-color="#ff4436" stop-opacity=".18"/>
+      <stop offset="1" stop-color="#ff4436" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- plaque -->
+  <rect x="1.5" y="1.5" width="1597" height="317" rx="30" fill="url(#sheen)" stroke="#322c22" stroke-width="3"/>
+
+  <!-- badge rails: silver above, red below -->
+  <line x1="64" y1="42" x2="1536" y2="42" stroke="#c7cbd1" stroke-width="3" stroke-linecap="round" opacity=".75"/>
+  <line x1="64" y1="278" x2="1536" y2="278" stroke="#e0362a" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- wordmark: dark rim under-layer, then color layer -->
+  <g>
+    <path d="M 145.0 86 L 189.0 206" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 233.0 86 L 189.0 206" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="319.0" cy="146.0" r="60" fill="none" stroke="#060505" stroke-width="33"/>
+    <path d="M 505.1 101.4 A 60 60 0 1 0 505.1 190.6" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 465.0 146.0 L 517.0 146.0" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 551.0 86 L 551.0 206" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 551.0 86 L 631.0 86" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 551.0 146.0 L 615.0 146.0" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 551.0 206 L 631.0 206" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 657.0 86 L 657.0 206" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 657.0 206 L 735.0 206" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 761.0 86 L 843.0 86" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 802.0 86 L 802.0 206" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 869.0 86 L 869.0 206" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 869.0 86 L 911.0 86 A 30 30 0 0 1 911.0 146.0 L 869.0 146.0" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 903.0 146.0 L 943.0 206" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="1029.0" cy="146.0" r="60" fill="none" stroke="#060505" stroke-width="33"/>
+    <path d="M 1115.0 86 L 1115.0 206" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 1115.0 86 L 1203.0 206" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 1203.0 86 L 1203.0 206" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 1230.0 86 L 1230.0 206" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 1357.1 101.4 A 60 60 0 1 0 1357.1 190.6" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 1448.0 108.2 A 30 30 0 1 0 1419.0 146.0" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 1419.0 146.0 A 30 30 0 1 1 1390.0 183.8" fill="none" stroke="#060505" stroke-width="33" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <g>
+    <path d="M 145.0 86 L 189.0 206" fill="none" stroke="url(#cream)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 233.0 86 L 189.0 206" fill="none" stroke="url(#cream)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="319.0" cy="146.0" r="60" fill="none" stroke="url(#cream)" stroke-width="26"/>
+    <path d="M 505.1 101.4 A 60 60 0 1 0 505.1 190.6" fill="none" stroke="url(#cream)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 465.0 146.0 L 517.0 146.0" fill="none" stroke="url(#cream)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 551.0 86 L 551.0 206" fill="none" stroke="url(#cream)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 551.0 86 L 631.0 86" fill="none" stroke="url(#cream)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 551.0 146.0 L 615.0 146.0" fill="none" stroke="url(#cream)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 551.0 206 L 631.0 206" fill="none" stroke="url(#cream)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 657.0 86 L 657.0 206" fill="none" stroke="url(#cream)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 657.0 206 L 735.0 206" fill="none" stroke="url(#cream)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 761.0 86 L 843.0 86" fill="none" stroke="url(#red)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 802.0 86 L 802.0 206" fill="none" stroke="url(#red)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 869.0 86 L 869.0 206" fill="none" stroke="url(#red)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 869.0 86 L 911.0 86 A 30 30 0 0 1 911.0 146.0 L 869.0 146.0" fill="none" stroke="url(#red)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 903.0 146.0 L 943.0 206" fill="none" stroke="url(#red)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <circle cx="1029.0" cy="146.0" r="60" fill="none" stroke="url(#red)" stroke-width="26"/>
+    <path d="M 1115.0 86 L 1115.0 206" fill="none" stroke="url(#red)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 1115.0 86 L 1203.0 206" fill="none" stroke="url(#red)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 1203.0 86 L 1203.0 206" fill="none" stroke="url(#red)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 1230.0 86 L 1230.0 206" fill="none" stroke="url(#red)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 1357.1 101.4 A 60 60 0 1 0 1357.1 190.6" fill="none" stroke="url(#red)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 1448.0 108.2 A 30 30 0 1 0 1419.0 146.0" fill="none" stroke="url(#red)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M 1419.0 146.0 A 30 30 0 1 1 1390.0 183.8" fill="none" stroke="url(#red)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+
+  <!-- LED apex: glow, ball, specular -->
+  <circle cx="189.0" cy="206" r="48" fill="url(#ledglow)"/>
+  <circle cx="189.0" cy="206" r="23" fill="url(#ledball)" stroke="#060505" stroke-width="3"/>
+  <ellipse cx="182.0" cy="197" rx="7" ry="5" fill="#ffffff" opacity=".85" transform="rotate(-24 182.0 197)"/>
+
+  <!-- tagline -->
+  <text x="800.0" y="260" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700" letter-spacing="7" fill="#e6b23e">GAMES THAT THINK!</text>
+</svg>
