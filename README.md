@@ -29,6 +29,8 @@ top.
 
 **Component of:** [Rovacon](https://github.com/cschweda/rovacon)
 ([13-document design suite, Docs 00–12](https://github.com/cschweda/rovacon/tree/main/docs))
+**Universe:** [The complete AmToy history](https://amtoy.metaincognita.com) —
+fictional, and canon for every metaincognita / AmToy project
 **Owning document:** Doc 10 — Audio Design, §3B
 **Status:** TypeScript implementation complete and tested. Tuning bench
 operational. **VQ-01 unresolved** — awaiting a listening judgment.
@@ -61,7 +63,8 @@ For anyone landing here without [the main suite](https://github.com/cschweda/rov
 
 Rovacon is a browser-based simulator of a fictional 1979 programmable toy rover
 — a close model of the Milton Bradley **Big Trak**, with the serial numbers
-filed off and a fictional manufacturer (**AmToy, Inc.**) invented around it.
+filed off and a fictional manufacturer
+([**AmToy, Inc.**](https://amtoy.metaincognita.com)) invented around it.
 
 **The game.** The player enters up to sixteen movement commands on a plastic
 keypad — forward 4, right 15, forward 2, fire 1, out — then presses GO and
@@ -673,6 +676,7 @@ Docs 00–12 live in the main Rovacon repository, under
 
 | Topic | Document |
 |---|---|
+| AmToy, Inc. complete history (canon) | [amtoy.metaincognita.com](https://amtoy.metaincognita.com) |
 | Audio design, both registers, full utterance set | Doc 10, especially §3B |
 | Stair fall sequence and the withering bloop | Doc 05 §5.1, Doc 10 §3A.3 |
 | Event bus that triggers utterances | Doc 06 §5 |
