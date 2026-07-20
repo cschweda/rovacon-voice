@@ -70,6 +70,12 @@ versioning follows [SemVer](https://semver.org/spec/v2.0.0.html).
 
 ### Fixed
 
+- **Bench autoplayed ROVACON on first load.** `init()` called
+  `updateFromText()`, whose trailing `scheduleRender(true)` queued a
+  play-render of the default line before any user gesture; the audio sat
+  pending in a suspended `AudioContext` and fired on the first click, so
+  a chosen utterance was always preceded by ROVACON. `updateFromText`
+  now takes a `play` flag and the initial load renders silently.
 - **Berzerk chip attribution.** Berzerk's *"Intruder alert!"* came from
   TSI's S14001A — a chip built for a talking calculator — not a Votrax.
   Removed Berzerk from the SC-01 table (§3.2), corrected the elevator

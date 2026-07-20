@@ -239,7 +239,7 @@ function updateAnalysis(
 /* Input handling                                                      */
 /* ------------------------------------------------------------------ */
 
-function updateFromText(): void {
+function updateFromText(play = true): void {
   const text = (document.getElementById('textIn') as HTMLTextAreaElement).value;
   const res = textToPhonemes(text);
   phonemes = res.phonemes;
@@ -258,7 +258,7 @@ function updateFromText(): void {
     : 'All words converted by rule — expect errors. Edit the phoneme field to correct.';
   document.getElementById('g2pNote')!.textContent = note;
 
-  scheduleRender(true);
+  scheduleRender(play);
 }
 
 function updateFromPhonemes(): void {
@@ -537,8 +537,11 @@ function init(): void {
     }
   });
 
-  updateFromText();
-  doRender(false);
+  // Populate the UI from the default text and render it silently. No
+  // autoplay on first load: playing here would leave the default line
+  // queued in a suspended AudioContext, and it would then fire on the
+  // user's first click — so a chosen utterance always trailed ROVACON.
+  updateFromText(false);
 }
 
 document.addEventListener('DOMContentLoaded', init);
