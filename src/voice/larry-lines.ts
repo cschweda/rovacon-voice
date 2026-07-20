@@ -28,8 +28,6 @@
  * confirm by ear on the bench.
  */
 
-import type { G2PResult } from './g2p'; // eslint-disable-line @typescript-eslint/no-unused-vars
-
 export type LarryState =
   | 'BOOT'        // power-on
   | 'WATCH'       // start of a round / "watch the sequence"
