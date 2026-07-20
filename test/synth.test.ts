@@ -5,7 +5,7 @@ import {
   textToPhonemes, parsePhonemeString, stripStress, isKnownPhoneme,
 } from '../src/voice/g2p';
 import { UTTERANCES } from '../src/voice/utterances';
-import { CLASSICS } from '../src/voice/classics';
+import { LARRY_LINES, type LarryLine } from '../src/voice/larry-lines';
 
 const ROVACON = ['R', 'OH', 'V', 'AH', 'K', 'AA', 'N'];
 
@@ -309,40 +309,48 @@ describe('utterance set', () => {
   });
 });
 
-describe('classics reel', () => {
-  it('references only known phonemes', () => {
-    for (const c of CLASSICS) {
-      for (const p of c.phonemes) {
-        expect(isKnownPhoneme(p), `${p} in ${c.label}`).toBe(true);
+describe('Larry reel', () => {
+  // Resolve a line the way the bench does: hand-tuned tokens win, and
+  // the rest fall back to grapheme-to-phoneme on the label.
+  const resolve = (l: LarryLine): readonly string[] =>
+    l.phonemes ?? textToPhonemes(l.label).phonemes;
+
+  it('references only known phonemes in its hand-tuned tokens', () => {
+    for (const l of LARRY_LINES) {
+      if (!l.phonemes) continue;
+      for (const p of l.phonemes) {
+        expect(isKnownPhoneme(p), `${p} in ${l.id}`).toBe(true);
       }
     }
   });
 
-  it('has unique ids and a game, year, and tech label on every line', () => {
-    const ids = CLASSICS.map((c) => c.id);
+  it('has unique ids and a state, label, readsAs, and trigger on every line', () => {
+    const ids = LARRY_LINES.map((l) => l.id);
     expect(new Set(ids).size).toBe(ids.length);
-    for (const c of CLASSICS) {
-      expect(c.game.length, c.id).toBeGreaterThan(0);
-      expect(c.year).toBeGreaterThanOrEqual(1980);
-      expect(c.year).toBeLessThanOrEqual(1983);
-      expect(c.tech.length, c.id).toBeGreaterThan(0);
+    for (const l of LARRY_LINES) {
+      expect(l.state.length, l.id).toBeGreaterThan(0);
+      expect(l.label.length, l.id).toBeGreaterThan(0);
+      expect(l.readsAs.length, l.id).toBeGreaterThan(0);
+      expect(l.trigger.length, l.id).toBeGreaterThan(0);
     }
   });
 
-  it('renders every line without error', () => {
-    for (const c of CLASSICS) {
-      expect(() => synth(c.phonemes), c.label).not.toThrow();
+  it('renders every line without error (g2p fallback for untuned lines)', () => {
+    for (const l of LARRY_LINES) {
+      const ph = resolve(l);
+      expect(ph.length, l.id).toBeGreaterThan(0);
+      expect(() => synth([...ph]), l.id).not.toThrow();
     }
   });
 
   it('stays out of the shipping utterance set', () => {
     // The game ships exactly eight lines (seven from Doc 10 §3B.5 plus
-    // the 2026-07-18 stair fall reversal). The classics reel is
-    // bench-only nostalgia and must never leak into it.
+    // the 2026-07-18 stair fall reversal). Larry is a different VogelTronics
+    // machine — bench-only, and must never leak into the Rovacon set.
     expect(UTTERANCES.length).toBe(8);
     const shipping = new Set(UTTERANCES.map((u) => u.id as string));
-    for (const c of CLASSICS) {
-      expect(shipping.has(c.id), c.id).toBe(false);
+    for (const l of LARRY_LINES) {
+      expect(shipping.has(l.id), l.id).toBe(false);
     }
   });
 });

@@ -18,7 +18,13 @@ import {
   textToPhonemes, parsePhonemeString, isKnownPhoneme, LEXICON_WORDS,
 } from '../voice/g2p';
 import { UTTERANCES } from '../voice/utterances';
-import { CLASSICS } from '../voice/classics';
+import {
+  LARRY_LINES, type LarryLine, type LarryState,
+} from '../voice/larry-lines';
+import changelogText from '../../CHANGELOG.md?raw';
+
+/** Injected by Vite `define` from package.json — see vite.config.ts. */
+declare const __APP_VERSION__: string;
 
 /* ------------------------------------------------------------------ */
 /* State                                                               */
@@ -361,25 +367,83 @@ function buildUtteranceButtons(): void {
   });
 }
 
-function buildClassicButtons(): void {
-  const host = document.getElementById('classics')!;
-  host.innerHTML = CLASSICS.map((c) =>
-    `<button class="utt" data-id="${c.id}" title="${c.game} (${c.year}) — ${c.tech}">
-       ${c.label}<span class="reads">${c.game} &middot; ${c.year} &middot; ${c.tech}</span></button>`,
-  ).join('');
+/** Ordered Larry states — the machine's flow, top to bottom. */
+const LARRY_STATE_ORDER: readonly LarryState[] = [
+  'BOOT', 'WATCH', 'CORRECT', 'LEVEL_UP', 'IDLE',
+  'WRONG', 'GAME_OVER', 'LAST_WORD', 'EASTER',
+];
+
+/** Display sub-headings for each state group. */
+const LARRY_STATE_LABEL: Record<LarryState, string> = {
+  BOOT: 'Boot', WATCH: 'Watch', CORRECT: 'Correct', LEVEL_UP: 'Level up',
+  IDLE: 'Idle', WRONG: 'Wrong', GAME_OVER: 'Game over',
+  LAST_WORD: 'Last word', EASTER: 'Easter',
+};
+
+/** Resolve a Larry line to phonemes: hand-tuned tokens win, else g2p. */
+function larryPhonemes(l: LarryLine): string[] {
+  return l.phonemes ? [...l.phonemes] : textToPhonemes(l.label).phonemes;
+}
+
+function buildLarryReel(): void {
+  const host = document.getElementById('larry')!;
+  host.innerHTML = LARRY_STATE_ORDER.map((state) => {
+    const lines = LARRY_LINES.filter((l) => l.state === state);
+    if (lines.length === 0) return '';
+    const buttons = lines.map((l) =>
+      `<button class="utt" data-id="${escapeHtml(l.id)}" title="${escapeHtml(l.trigger)}">
+         ${escapeHtml(l.label)}<span class="reads">${escapeHtml(l.readsAs)}</span></button>`,
+    ).join('');
+    return `<div class="larry-group">
+      <h4 class="larry-state">${escapeHtml(LARRY_STATE_LABEL[state])}</h4>
+      <div class="larry-buttons">${buttons}</div>
+    </div>`;
+  }).join('');
 
   host.querySelectorAll<HTMLButtonElement>('.utt').forEach((btn) => {
     btn.addEventListener('click', () => {
-      const c = CLASSICS.find((x) => x.id === btn.dataset.id)!;
-      phonemes = [...c.phonemes];
+      const l = LARRY_LINES.find((x) => x.id === btn.dataset.id)!;
+      phonemes = larryPhonemes(l);
       (document.getElementById('phonemeIn') as HTMLTextAreaElement).value =
         phonemes.join(' ');
       (document.getElementById('textIn') as HTMLTextAreaElement).value =
-        c.label;
+        l.label;
       document.getElementById('breakdown')!.innerHTML = '';
-      setStatus(`${c.game} (${c.year}) — original hardware: ${c.tech}`, false);
+      setStatus(`Larry · ${LARRY_STATE_LABEL[l.state]} — ${l.trigger}`, false);
       scheduleRender(true);
     });
+  });
+}
+
+function initStatusBar(): void {
+  const ver = document.getElementById('appVersion');
+  if (ver) ver.textContent = __APP_VERSION__;
+
+  const modal = document.getElementById('changelogModal');
+  const body = document.getElementById('changelogBody');
+  const openBtn = document.getElementById('changelogBtn');
+  const closeBtn = document.getElementById('changelogClose');
+  if (!modal || !body || !openBtn || !closeBtn) return;
+
+  let filled = false;
+  const open = (): void => {
+    if (!filled) { body.textContent = changelogText; filled = true; }
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    (closeBtn as HTMLButtonElement).focus();
+  };
+  const close = (): void => {
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    (openBtn as HTMLButtonElement).focus();
+  };
+
+  openBtn.addEventListener('click', open);
+  closeBtn.addEventListener('click', close);
+  // Backdrop click (outside the panel) closes.
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal.classList.contains('open')) close();
   });
 }
 
@@ -411,8 +475,9 @@ function init(): void {
   buildSliders();
   buildPresets();
   buildUtteranceButtons();
-  buildClassicButtons();
+  buildLarryReel();
   buildPhonemeReference();
+  initStatusBar();
 
   document.getElementById('lexicon')!.textContent =
     `Lexicon: ${LEXICON_WORDS.join(', ')}`;

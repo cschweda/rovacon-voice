@@ -64,12 +64,13 @@
   </section>
 
   <section class="panel">
-    <h2>Classics reel</h2>
-    <p class="note">Impressions of the golden age, rendered through this
-       synth &mdash; original hardware labeled. Only the Votrax games were
-       phoneme synthesis like this one. Robotron is absent because it never
-       spoke: the Williams voice you remember is Sinistar&rsquo;s.</p>
-    <div id="classics" class="utterances"></div>
+    <h2>Larry &mdash; the game that talks back</h2>
+    <p class="note">VogelTronics&rsquo; 1979 memory game, voiced through this
+       same synth. Larry never congratulates &mdash; on a <em>correct</em>
+       answer he just says &ldquo;AGAIN.&rdquo; Grouped by machine state; the
+       <b>Last&nbsp;word</b> lines are the ones that fire seconds
+       <em>after</em> you switch him off. Click any line to load it.</p>
+    <div id="larry" class="larry"></div>
   </section>
 
   <section class="panel">
@@ -112,6 +113,27 @@
      <code>rovacon-voice-synthesis.md</code></p>
   <p class="fine">Some assembly required. Batteries not included.</p>
 </footer>
+
+<div class="statusbar">
+  <span class="sb-item">VogelVox&nbsp;<b>v<span id="appVersion">0.0.0</span></b></span>
+  <span class="sb-sep">&middot;</span>
+  <button type="button" id="changelogBtn" class="sb-link">Changelog</button>
+  <span class="sb-sep">&middot;</span>
+  <a class="sb-link" href="https://github.com/cschweda/vogeltronics-vogel-vox"
+     target="_blank" rel="noopener">GitHub&nbsp;&nearr;</a>
+</div>
+
+<div id="changelogModal" class="modal" aria-hidden="true"
+     role="dialog" aria-modal="true" aria-labelledby="changelogTitle">
+  <div class="modal-panel">
+    <div class="modal-head">
+      <h2 id="changelogTitle">Changelog</h2>
+      <button type="button" id="changelogClose" class="modal-close"
+              aria-label="Close changelog">&times;</button>
+    </div>
+    <pre id="changelogBody" class="changelog-body"></pre>
+  </div>
+</div>
 
 <script type="module" src="/src/bench/main.ts"></script>
 </body>

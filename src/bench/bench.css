@@ -19,6 +19,7 @@
 
 body {
   margin: 0;
+  padding-bottom: 44px; /* clearance for the fixed status bar */
   background: var(--bg);
   color: var(--ink);
   font: 14px/1.5 var(--mono);
@@ -218,6 +219,75 @@ footer {
 .fine { font-size: 11px; opacity: .7; margin-top: 4px; }
 
 code { color: var(--yellow); }
+
+/* Larry reel — grouped by machine state ----------------------------- */
+.larry { display: flex; flex-direction: column; gap: 12px; }
+.larry-state {
+  margin: 0 0 6px;
+  font-size: 10.5px; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--yellow);
+}
+.larry-buttons { display: flex; flex-wrap: wrap; gap: 6px; }
+.larry-buttons .utt { flex: 0 1 auto; }
+
+/* Fixed bottom status bar ------------------------------------------- */
+.statusbar {
+  position: fixed;
+  left: 0; right: 0; bottom: 0;
+  z-index: 50;
+  display: flex; align-items: center; gap: 10px;
+  padding: 7px 16px;
+  background: var(--panel);
+  border-top: 1px solid var(--rule);
+  color: var(--ink-dim);
+  font-size: 11.5px;
+}
+.statusbar b { color: var(--ink); font-weight: 600; }
+.sb-sep { opacity: .5; }
+.sb-link {
+  background: none; border: 0; padding: 0; margin: 0;
+  color: var(--ink-dim);
+  font: inherit; cursor: pointer; text-decoration: none;
+}
+.sb-link:hover { color: var(--blue); }
+.sb-link:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+
+/* Changelog modal --------------------------------------------------- */
+.modal {
+  position: fixed; inset: 0; z-index: 100;
+  display: none; align-items: center; justify-content: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, .6);
+}
+.modal.open { display: flex; }
+.modal-panel {
+  display: flex; flex-direction: column;
+  width: min(760px, 100%);
+  max-height: min(80vh, 900px);
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .5);
+}
+.modal-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--rule);
+}
+.modal-head h2 { margin: 0; color: var(--blue); font-size: 14px; }
+.modal-close {
+  background: none; border: 0; padding: 0 4px; margin: 0;
+  color: var(--ink-dim); font-size: 20px; line-height: 1; cursor: pointer;
+}
+.modal-close:hover { color: var(--red); }
+.modal-close:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.changelog-body {
+  margin: 0; padding: 16px;
+  overflow: auto;
+  font: 12px/1.55 var(--mono);
+  color: var(--ink);
+  white-space: pre-wrap; word-break: break-word;
+}
 
 @media (max-width: 1100px) { main { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 760px)  { main { grid-template-columns: 1fr; } }

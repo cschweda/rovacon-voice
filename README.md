@@ -236,8 +236,7 @@ for arcade speech.
 Berzerk (1980) — the most famous talking cabinet of all — is deliberately
 absent from this table: *"Intruder alert!"* came from TSI's S14001A
 (§3.1), not a Votrax, despite four decades of misattribution. The bench's
-Berzerk preset and classics-reel lines are cross-technology impressions,
-and labeled as such.
+Berzerk preset is a cross-technology impression, and labeled as such.
 
 **How it worked:** 64 phonemes in ROM addressed by a 6-bit input, 4 inflection
 levels, analog formant filters switched per phoneme, a master clock around
@@ -365,7 +364,7 @@ vogel-vox/
 │   │   ├── synth.ts           the DSP
 │   │   ├── g2p.ts             English → phonemes (rule-based)
 │   │   ├── utterances.ts      the eight shipping lines
-│   │   ├── classics.ts        bench-only classics reel
+│   │   ├── larry-lines.ts     bench-only Larry reel (VogelTronics)
 │   │   ├── player.ts          playback + rate limiting
 │   │   └── index.ts           public surface
 │   └── bench/                 the tuning tool
@@ -504,10 +503,10 @@ limit**:
 
 ### 6.4 Controls
 
-- **Classics reel** — impressions of the golden age (Gorf, Wizard of Wor,
-  Berzerk, Sinistar, Crazy Climber, Q*bert), original hardware labeled per
-  line. Robotron is absent because it never spoke — the Williams voice you
-  remember is Sinistar's.
+- **Larry reel** — the lines from Larry, VogelTronics' 1979 memory game
+  (`src/voice/larry-lines.ts`), grouped by machine state. Bench-only and
+  in-universe: VogelVox voices, not real arcade cabinets. Hand-tuned
+  phonemes where they exist; g2p on the label otherwise.
 - **Space** replays without re-rendering
 - **Download WAV** exports the current render
 - **Copy params** puts non-default values on the clipboard as JSON, ready to
@@ -592,8 +591,9 @@ Coverage:
   `Object.prototype` names (the B1/H1 regression, §10.4)
 - **Utterance set** — unique IDs and priorities, valid phonemes, and the
   stair fall line **present** (the reversed rule, §2.1)
-- **Classics reel** — valid phonemes, labeled hardware, and provably
-  separate from the shipping set (exactly eight lines ship)
+- **Larry reel** — unique IDs, valid hand-tuned phonemes, every line
+  renders, and provably separate from the shipping set (exactly eight
+  lines ship)
 
 The stair-fall test still encodes a design decision as an assertion — it
 now points the other way. Removing `OUCH, THAT HURTS` fails with a pointer

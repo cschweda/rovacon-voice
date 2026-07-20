@@ -8,6 +8,12 @@ versioning follows [SemVer](https://semver.org/spec/v2.0.0.html).
 
 ### Added
 
+- **Bottom status bar** on the tuning bench — a fixed bar showing the
+  version (injected from `package.json` at build time via a Vite
+  `define`), a **Changelog** button that opens this file in an in-app
+  viewer (`CHANGELOG.md` imported with `?raw`, rendered as monospace via
+  `textContent` — no new `innerHTML` sink), and a link to the GitHub
+  repository.
 - This changelog.
 - README §10 — full-tree red/blue team security review of commit `0789916`
   (2026-07-18).
@@ -25,12 +31,13 @@ versioning follows [SemVer](https://semver.org/spec/v2.0.0.html).
   deploy.
 - Live deployment: <https://vogel-vox.netlify.app/>. The og/twitter
   image tags in `index.html` now use the absolute URL, plus `og:url`.
-- **Classics reel** (`src/voice/classics.ts` + bench panel): twelve
-  hand-transcribed impressions of golden-age arcade voices — Gorf ×4,
-  Wizard of Wor ×2, Berzerk ×2, Sinistar ×2, Crazy Climber, and a Q*bert
-  nonsense line — each labeled with its real original hardware (Votrax
-  SC-01/SC-01A, TSI S14001A, digitized samples). Bench-only; a test
-  proves it stays out of the shipping set.
+- **Larry reel** (`src/voice/larry-lines.ts` + bench panel): the lines
+  from Larry, VogelTronics' 1979 memory game, grouped by machine state
+  (Boot, Watch, Correct, Wrong, Idle, Level up, Game over, Last word,
+  Easter). In-universe by design — VogelVox voices only, no real arcade
+  cabinets. Hand-tuned phonemes where they exist, g2p on the label
+  otherwise; button text is escaped through `escapeHtml`. Bench-only; a
+  test proves it stays out of the eight shipping utterances.
 - **Wizard of Wor preset** — deeper and slower than Gorf; the dungeon
   register.
 - **`OUCH, THAT HURTS` shipping utterance** for the stair fall (see
