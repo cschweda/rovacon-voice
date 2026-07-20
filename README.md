@@ -1,6 +1,6 @@
 <p align="center">
   <img src="public/og.png" width="820"
-       alt="Rovacon Voice — the real waveform of the synthesizer saying ROVACON, annotated with its phoneme string R OH: V AH K AA: N">
+       alt="VogelVox — the real waveform of the synthesizer saying ROVACON, annotated with its phoneme string R OH: V AH K AA: N">
 </p>
 
 <p align="center">
@@ -13,12 +13,12 @@
 </p>
 
 <p align="center">
-  <b>Live bench: <a href="https://rovacon-voice.netlify.app/">rovacon-voice.netlify.app</a></b>
+  <b>Live bench: <a href="https://vogel-vox.netlify.app/">vogel-vox.netlify.app</a></b>
 </p>
 
-# Rovacon Voice — Design Document & Tuning Bench
+# VogelVox — Design Document & Tuning Bench
 
-**Rovacon Voice is a zero-dependency TypeScript recreation of Votrax
+**VogelVox is a zero-dependency TypeScript recreation of Votrax
 SC-01-class formant speech synthesis — the chip that voiced Gorf, Wizard of
 Wor, and Q*bert — small enough to ship inside a game at 9.7 KB gzipped.** Type any
 phrase into the browser tuning bench, hear it rendered as 1980 arcade speech
@@ -355,7 +355,7 @@ one reason plosives read cleaner than the SC-01's did.
 ### 5.1 Structure
 
 ```
-rovacon-voice/
+vogel-vox/
 ├── index.html                 tuning bench page
 ├── netlify.toml               deploy config + H3 security headers
 ├── public/                    og social card (real synth output)
@@ -383,7 +383,7 @@ rovacon-voice/
 The main Rovacon repo consumes a narrow API:
 
 ```ts
-import { VoicePlayer } from '@rovacon/voice';
+import { VoicePlayer } from '@vogel-vox/voice';
 
 const voice = new VoicePlayer();
 await voice.init(audioContext);      // from a user gesture
@@ -454,7 +454,7 @@ Measured separation now:
 
 ## 6. The Tuning Bench
 
-Hosted at **<https://rovacon-voice.netlify.app/>** — or run it locally:
+Hosted at **<https://vogel-vox.netlify.app/>** — or run it locally:
 
 ```bash
 pnpm install

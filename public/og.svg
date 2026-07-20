@@ -21,7 +21,7 @@
   <!-- title -->
   <text x="72" y="205" font-family="'Avenir Next', 'Helvetica Neue', sans-serif"
         font-size="88" font-weight="900" letter-spacing="-1"
-        fill="#f2ede4">ROVACON VOICE</text>
+        fill="#f2ede4">VOGELVOX</text>
   <text x="72" y="257" font-family="'Avenir Next', 'Helvetica Neue', sans-serif"
         font-size="29" font-weight="400" fill="#9a9284">Votrax SC-01&#8211;style formant speech synthesis in TypeScript</text>
 

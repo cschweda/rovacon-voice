@@ -23,7 +23,7 @@ versioning follows [SemVer](https://semver.org/spec/v2.0.0.html).
 - `LICENSE` (MIT), `.nvmrc` (Node 22), and `netlify.toml` (build config,
   hashed-asset caching, and the H3 security headers) for the Netlify
   deploy.
-- Live deployment: <https://rovacon-voice.netlify.app/>. The og/twitter
+- Live deployment: <https://vogel-vox.netlify.app/>. The og/twitter
   image tags in `index.html` now use the absolute URL, plus `og:url`.
 - **Classics reel** (`src/voice/classics.ts` + bench panel): twelve
   hand-transcribed impressions of golden-age arcade voices — Gorf ×4,
@@ -43,6 +43,13 @@ versioning follows [SemVer](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+- **Renamed the voice component from "Rovacon Voice" to VogelVox
+  (2026-07-20).** New slug `vogel-vox`; live bench at
+  <https://vogel-vox.netlify.app/>; package `@vogel-vox/voice`; repo now
+  <https://github.com/cschweda/vogeltronics-vogel-vox>. The parent Rovacon
+  project (design suite + toy rover) and the spoken `ROVACON` utterance keep
+  their names. Social card (`public/og.svg` → `public/og.png`) regenerated
+  with the new title.
 - **Stair-fall silence rule reversed by owner decision (2026-07-18).**
   Doc 10 §3B.5 gave the stair fall silence, and a test enforced it; the
   toy now says `OUCH, THAT HURTS` after the withering bloop, lowest
