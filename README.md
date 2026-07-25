@@ -13,7 +13,7 @@
 </p>
 
 <p align="center">
-  <b>Live bench: <a href="https://vogel-vox.netlify.app/">vogel-vox.netlify.app</a></b>
+  <b>Live bench: <a href="https://vogelvox.vogeltronics.com/">vogelvox.vogeltronics.com</a></b>
 </p>
 
 # VogelVox — Design Document & Tuning Bench
@@ -453,7 +453,7 @@ Measured separation now:
 
 ## 6. The Tuning Bench
 
-Hosted at **<https://vogel-vox.netlify.app/>** — or run it locally:
+Hosted at **<https://vogelvox.vogeltronics.com/>** — or run it locally:
 
 ```bash
 pnpm install
