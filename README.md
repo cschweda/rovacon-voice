@@ -38,7 +38,7 @@ operational. **VQ-01 unresolved** — awaiting a listening judgment.
 ## The VogelTronics Universe
 
 <p align="center">
-  <a href="https://vogeltronics.metaincognita.com">
+  <a href="https://vogeltronics.com">
     <img src="public/vogeltronics-logo.svg" width="500" alt="VogelTronics — Games That Think!">
   </a>
 </p>
@@ -46,7 +46,7 @@ operational. **VQ-01 unresolved** — awaiting a listening judgment.
 **VogelTronics, Inc.** — founded 1961 as the Vogel Novelty Company, renamed
 in 1977, slogan *Games That Think!* — is the fictional toy company that
 shipped the Rovacon in 1979. Its complete corporate history lives at
-[vogeltronics.metaincognita.com](https://vogeltronics.metaincognita.com),
+[vogeltronics.com](https://vogeltronics.com),
 and that history is canon: every metaincognita / VogelTronics project —
 this bench, the
 [Rovacon design suite](https://github.com/cschweda/rovacon), and whatever
@@ -81,7 +81,7 @@ For anyone landing here without [the main suite](https://github.com/cschweda/rov
 Rovacon is a browser-based simulator of a fictional 1979 programmable toy rover
 — a close model of the Milton Bradley **Big Trak**, with the serial numbers
 filed off and a fictional manufacturer
-([**VogelTronics, Inc.**](https://vogeltronics.metaincognita.com)) invented around it.
+([**VogelTronics, Inc.**](https://vogeltronics.com)) invented around it.
 
 **The game.** The player enters up to sixteen movement commands on a plastic
 keypad — forward 4, right 15, forward 2, fire 1, out — then presses GO and
@@ -693,7 +693,7 @@ Docs 00–12 live in the main Rovacon repository, under
 
 | Topic | Document |
 |---|---|
-| VogelTronics, Inc. complete history (canon) | [vogeltronics.metaincognita.com](https://vogeltronics.metaincognita.com) |
+| VogelTronics, Inc. complete history (canon) | [vogeltronics.com](https://vogeltronics.com) |
 | Audio design, both registers, full utterance set | Doc 10, especially §3B |
 | Stair fall sequence and the withering bloop | Doc 05 §5.1, Doc 10 §3A.3 |
 | Event bus that triggers utterances | Doc 06 §5 |
