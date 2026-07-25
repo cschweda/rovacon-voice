@@ -27,8 +27,8 @@ applied: quantized formants, a buzzy impulse-train glottis, and an 8 kHz
 chip-rate ceiling — a real synthesizer, not a modern voice with filters on
 top.
 
-**Component of:** [Rovacon](https://github.com/cschweda/rovacon)
-([13-document design suite, Docs 00–12](https://github.com/cschweda/rovacon/tree/main/docs))
+**Component of:** [Rovacon](https://github.com/cschweda/vogeltronics-rovacon)
+([13-document design suite, Docs 00–12](https://github.com/cschweda/vogeltronics-rovacon/tree/main/docs))
 **Owning document:** Doc 10 — Audio Design, §3B
 **Status:** TypeScript implementation complete and tested. Tuning bench
 operational. **VQ-01 unresolved** — awaiting a listening judgment.
@@ -49,7 +49,7 @@ shipped the Rovacon in 1979. Its complete corporate history lives at
 [vogeltronics.com](https://vogeltronics.com),
 and that history is canon: every metaincognita / VogelTronics project —
 this bench, the
-[Rovacon design suite](https://github.com/cschweda/rovacon), and whatever
+[Rovacon design suite](https://github.com/cschweda/vogeltronics-rovacon), and whatever
 comes next — exists in the same universe and answers to it.
 
 ---
@@ -76,7 +76,7 @@ made with ears, not assumptions.
 
 ## 1. Rovacon In One Page
 
-For anyone landing here without [the main suite](https://github.com/cschweda/rovacon/tree/main/docs).
+For anyone landing here without [the main suite](https://github.com/cschweda/vogeltronics-rovacon/tree/main/docs).
 
 Rovacon is a browser-based simulator of a fictional 1979 programmable toy rover
 — a close model of the Milton Bradley **Big Trak**, with the serial numbers
@@ -689,7 +689,7 @@ prototype chain.** Found 2026-07-18 during the review's data-flow trace;
 ## 11. Cross-References
 
 Docs 00–12 live in the main Rovacon repository, under
-[`docs/`](https://github.com/cschweda/rovacon/tree/main/docs).
+[`docs/`](https://github.com/cschweda/vogeltronics-rovacon/tree/main/docs).
 
 | Topic | Document |
 |---|---|
